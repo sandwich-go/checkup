@@ -1,0 +1,10 @@
+syntax = "proto3";
+package netutils;
+option go_package = "bitbucket.org/funplus/sandwich/protocol/internal_command";
+
+//CSHARP_NAMESPACE
+message CmdStream {
+  string Addr  = 1;
+  string Token = 2;
+  map<string,string> Meta = 3;
+}

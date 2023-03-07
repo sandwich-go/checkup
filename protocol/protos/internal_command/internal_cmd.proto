@@ -1,0 +1,12 @@
+syntax = "proto3";
+package netutils;
+option go_package = "bitbucket.org/funplus/sandwich/protocol/internal_command";
+import "netutils/cmds.proto";
+import "netutils/common.proto";
+import "internal_command/internal.proto";
+
+service InternalCmd {
+  rpc CmdPing (netutils.CmdPing) returns (netutils.CmdPingAck) {}
+  rpc CmdCheckup (netutils.CmdCheckup) returns (netutils.CmdCheckup) {}
+  rpc CmdBuildStream (netutils.CmdStream) returns (netutils.CmdStream) {}
+}
