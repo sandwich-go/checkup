@@ -6,13 +6,15 @@ import (
 	"reflect"
 )
 
+var globalRegistry *registry
+
 func init() {
-	rr := &registry{
+	globalRegistry = &registry{
 		uri2Type: make(map[string]reflect.Type),
 		type2URI: make(map[reflect.Type]string),
 		creators: make(map[string]func() interface{}),
 	}
-	rr.Register(
+	globalRegistry.Register(
 		&internal_command.CmdPing{},
 		&internal_command.CmdPingAck{},
 		&internal_command.CmdCheckup{},
@@ -33,6 +35,14 @@ func (r *registry) Register(mpList ...interface{}) {
 		r.type2URI[rt] = uri
 		r.creators[uri] = func() interface{} { return reflect.New(rt.Elem()).Interface() }
 	}
+}
+
+func (r *registry) NewObject(uri string) (obj interface{}, created bool) {
+	if cf, ok := r.creators[uri]; ok {
+		obj = cf()
+		created = true
+	}
+	return
 }
 
 func mustURIResolve(pkt interface{}) (uri string, pType reflect.Type) {

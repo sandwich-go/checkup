@@ -17,7 +17,6 @@ func TestMarshal(t *testing.T) {
 		want    []byte
 		wantErr bool
 	}{
-		// TODO: Add test cases.
 		{
 			name: "correct",
 			args: args{&InternalCmd{
@@ -60,7 +59,6 @@ func TestUnmarshal(t *testing.T) {
 		want    interface{}
 		wantErr bool
 	}{
-		// TODO: Add test cases.
 		{
 			name: "test1",
 			args: args{

@@ -1,11 +1,8 @@
 package internalcmd
 
 import (
-	"encoding/binary"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"github.com/sandwich-go/boost/z"
 )
 
 const magicNumber byte = 0xCD
@@ -15,6 +12,9 @@ type Codec interface {
 	Unmarshal(data []byte, v interface{}) error
 }
 
+// InternalCmd 和 Raw 都以json来序列化
+// 新增Internal Cmd时需要新增定义到 protocol/protos/internal_command/internal.proto 中
+// 发送者只要能保证发送的格式符合 InternalCmd 和 Raw 以json格式解析即可
 type InternalCmd struct {
 	Uri         string `json:"uri"`
 	Raw         []byte `json:"raw"`
@@ -23,7 +23,7 @@ type InternalCmd struct {
 
 func Marshal(v interface{}) ([]byte, error) {
 	if _, ok := v.(*InternalCmd); !ok {
-		return nil, errors.New("Marshal InternalCmd failed, v is not an InternalCmd")
+		return nil, ErrMarshalType
 	}
 	b, err := json.Marshal(v)
 	if err != nil {
@@ -38,53 +38,8 @@ func Marshal(v interface{}) ([]byte, error) {
 
 func Unmarshal(data []byte, v interface{}) error {
 	if data[0] != magicNumber {
-		return errors.New("Unmarshal InternalCmd err, magicNumber verify failed")
+		return ErrUnmarshalNotIM
 	}
 	err := json.Unmarshal(data[1:], v)
 	return err
-}
-
-func readString(data []byte, pos uint32, tlvLen uint32) (string, uint32) {
-	bb, pos := readBytes(data, pos, tlvLen)
-	if bb == nil {
-		return "", pos
-	}
-	return z.BytesToString(bb), pos
-}
-
-func readBytes(data []byte, pos uint32, tlvLen uint32) ([]byte, uint32) {
-	toReadLen := uint32(0)
-	if tlvLen == 1 {
-		toReadLen = uint32(data[pos])
-	} else if tlvLen == 2 {
-		toReadLen = uint32(binary.LittleEndian.Uint16(data[pos : pos+2]))
-	} else if tlvLen == 4 {
-		toReadLen = binary.LittleEndian.Uint32(data[pos : pos+4])
-	} else {
-		panic(fmt.Sprintf("not support for tlvLen:%d", tlvLen))
-	}
-	pos += tlvLen
-	return data[pos : pos+toReadLen], pos + toReadLen
-}
-
-func writeString(data []byte, pos uint32, tlvLen uint32, toWrite string) uint32 {
-	return writeBytes(data, pos, tlvLen, z.StringToBytes(toWrite))
-}
-func writeBytes(data []byte, pos uint32, tlvLen uint32, toWrite []byte) uint32 {
-	sLen := uint32(len(toWrite))
-	if tlvLen == 1 {
-		data[pos] = byte(sLen)
-	} else if tlvLen == 2 {
-		binary.LittleEndian.PutUint16(data[pos:pos+tlvLen], uint16(sLen))
-	} else if tlvLen == 4 {
-		binary.LittleEndian.PutUint32(data[pos:pos+tlvLen], uint32(sLen))
-	} else {
-		panic(fmt.Sprintf("not support for tlvLen:%d", tlvLen))
-	}
-	pos += tlvLen
-	if sLen > 0 {
-		copy(data[pos:pos+sLen], toWrite)
-	}
-	pos += sLen
-	return pos
 }
