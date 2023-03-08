@@ -125,35 +125,32 @@ func RegisterServerHandlerInternalCmdForRPCForCommonRouter(r router.Router, s Se
 	h := &proxyServerHandlerInternalCmdForRPC{handler: s}
 	{
 		rsp := new(netutils.CmdPingAck)
-		req := new(netutils.CmdPing)
-		r.SetMessageHandler(req, h.proxyCmdPing)
+		r.SetMessageHandler("/netutils.InternalCmd/CmdPing", h.proxyCmdPing)
 		// uri mapping
 		if s, ok := r.(interface {
 			SetURIMapping(interface{}, interface{})
 		}); ok {
-			s.SetURIMapping(req, rsp)
+			s.SetURIMapping("/netutils.InternalCmd/CmdPing", rsp)
 		}
 	}
 	{
 		rsp := new(netutils.CmdCheckup)
-		req := new(netutils.CmdCheckup)
-		r.SetMessageHandler(req, h.proxyCmdCheckup)
+		r.SetMessageHandler("/netutils.InternalCmd/CmdCheckup", h.proxyCmdCheckup)
 		// uri mapping
 		if s, ok := r.(interface {
 			SetURIMapping(interface{}, interface{})
 		}); ok {
-			s.SetURIMapping(req, rsp)
+			s.SetURIMapping("/netutils.InternalCmd/CmdCheckup", rsp)
 		}
 	}
 	{
 		rsp := new(CmdStream)
-		req := new(CmdStream)
-		r.SetMessageHandler(req, h.proxyCmdBuildStream)
+		r.SetMessageHandler("/netutils.InternalCmd/CmdBuildStream", h.proxyCmdBuildStream)
 		// uri mapping
 		if s, ok := r.(interface {
 			SetURIMapping(interface{}, interface{})
 		}); ok {
-			s.SetURIMapping(req, rsp)
+			s.SetURIMapping("/netutils.InternalCmd/CmdBuildStream", rsp)
 		}
 	}
 }
@@ -173,37 +170,37 @@ func RegisterServerHandlerInternalCmdForRPCForArk(r ark.Router, s ServerHandlerI
 	{
 		t := new(netutils.CmdPing)
 		m := h.proxyCmdPing
-		err := router.RegisterMessageUnder(r, t, m)
+		err := router.RegisterMessageUnder(r, "/netutils.InternalCmd/CmdPing", m)
 
 		if err != nil {
 			panic(fmt.Errorf("service register failed with RegisterMessageUnder, with message:%v, err:%w", t, err))
 		}
 		// auto generate by ProtoKitGo
-		path := strings.TrimPrefix("/auto/netutils.CmdPing", r.BasePath())
+		path := strings.TrimPrefix("/auto/netutils.InternalCmd/CmdPing", r.BasePath())
 		r.GetPost(path, router.ArkCommonHandle(t, m))
 	}
 	{
 		t := new(netutils.CmdCheckup)
 		m := h.proxyCmdCheckup
-		err := router.RegisterMessageUnder(r, t, m)
+		err := router.RegisterMessageUnder(r, "/netutils.InternalCmd/CmdCheckup", m)
 
 		if err != nil {
 			panic(fmt.Errorf("service register failed with RegisterMessageUnder, with message:%v, err:%w", t, err))
 		}
 		// auto generate by ProtoKitGo
-		path := strings.TrimPrefix("/auto/netutils.CmdCheckup", r.BasePath())
+		path := strings.TrimPrefix("/auto/netutils.InternalCmd/CmdCheckup", r.BasePath())
 		r.GetPost(path, router.ArkCommonHandle(t, m))
 	}
 	{
 		t := new(CmdStream)
 		m := h.proxyCmdBuildStream
-		err := router.RegisterMessageUnder(r, t, m)
+		err := router.RegisterMessageUnder(r, "/netutils.InternalCmd/CmdBuildStream", m)
 
 		if err != nil {
 			panic(fmt.Errorf("service register failed with RegisterMessageUnder, with message:%v, err:%w", t, err))
 		}
 		// auto generate by ProtoKitGo
-		path := strings.TrimPrefix("/auto/internal_command.CmdStream", r.BasePath())
+		path := strings.TrimPrefix("/auto/netutils.InternalCmd/CmdBuildStream", r.BasePath())
 		r.GetPost(path, router.ArkCommonHandle(t, m))
 	}
 }

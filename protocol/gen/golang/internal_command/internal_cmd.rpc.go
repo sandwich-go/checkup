@@ -90,7 +90,7 @@ func (c *proxyRpcClientInternalCmd) CmdPing(ctx context.Context, in *netutils.Cm
 	}
 
 	req := message.GetMessagePacket()
-	req.Messages = message.Messages{&message.Message{Message: in, Uri: c.urinetutilsCmdPing}}
+	req.Messages = message.Messages{&message.Message{Message: in, Uri: "/netutils.InternalCmd/CmdPing"}}
 
 	req.Version = 1
 
@@ -126,7 +126,7 @@ func (c *proxyRpcClientInternalCmd) CmdCheckup(ctx context.Context, in *netutils
 	}
 
 	req := message.GetMessagePacket()
-	req.Messages = message.Messages{&message.Message{Message: in, Uri: c.urinetutilsCmdCheckup}}
+	req.Messages = message.Messages{&message.Message{Message: in, Uri: "/netutils.InternalCmd/CmdCheckup"}}
 
 	req.Version = 1
 
@@ -162,7 +162,7 @@ func (c *proxyRpcClientInternalCmd) CmdBuildStream(ctx context.Context, in *CmdS
 	}
 
 	req := message.GetMessagePacket()
-	req.Messages = message.Messages{&message.Message{Message: in, Uri: c.uriCmdStream}}
+	req.Messages = message.Messages{&message.Message{Message: in, Uri: "/netutils.InternalCmd/CmdBuildStream"}}
 
 	req.Version = 1
 

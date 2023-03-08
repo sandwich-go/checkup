@@ -1,0 +1,68 @@
+{
+	"ServerHandlerInternalCmd ": {
+		"service": "ServerHandlerInternalCmd",
+		"queue": true,
+		"functions": {
+			"CmdBuildStream ": {
+				"name": "CmdBuildStream",
+				"msg": "/netutils.InternalCmd/CmdBuildStream",
+				"uri": "/auto/netutils.InternalCmd/CmdBuildStream",
+				"params": {
+					"Addr": {
+						"desc": "",
+						"type": "string",
+						"value": ""
+					},
+					"Meta": {
+						"desc": "",
+						"type": "map",
+						"value": {
+							"desc": "",
+							"type": "string",
+							"value": ""
+						}
+					},
+					"Token": {
+						"desc": "",
+						"type": "string",
+						"value": ""
+					}
+				}
+			},
+			"CmdCheckup ": {
+				"name": "CmdCheckup",
+				"msg": "/netutils.InternalCmd/CmdCheckup",
+				"uri": "/auto/netutils.InternalCmd/CmdCheckup",
+				"params": {
+					"CustomMeasurements": {
+						"desc": "",
+						"type": "string",
+						"value": ""
+					},
+					"code": {
+						"desc": "",
+						"type": "number",
+						"value": 0
+					},
+					"message": {
+						"desc": "",
+						"type": "string",
+						"value": ""
+					}
+				}
+			},
+			"CmdPing ": {
+				"name": "CmdPing",
+				"msg": "/netutils.InternalCmd/CmdPing",
+				"uri": "/auto/netutils.InternalCmd/CmdPing",
+				"params": {
+					"timestamp": {
+						"desc": "",
+						"type": "number",
+						"value": 0
+					}
+				}
+			}
+		}
+	}
+}
