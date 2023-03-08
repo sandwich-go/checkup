@@ -3,8 +3,6 @@ package internalcmd
 import (
 	"github.com/golang/protobuf/proto"
 	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
-	"github.com/sandwich-go/internalcmd/protocol/netutils"
-	"google.golang.org/protobuf/reflect/protoreflect"
 	"reflect"
 )
 
@@ -15,9 +13,9 @@ func init() {
 		creators: make(map[string]func() interface{}),
 	}
 	rr.Register(
-		&netutils.CmdPing{},
-		&netutils.CmdPingAck{},
-		&netutils.CmdCheckup{},
+		&internal_command.CmdPing{},
+		&internal_command.CmdPingAck{},
+		&internal_command.CmdCheckup{},
 		&internal_command.CmdStream{},
 	)
 }
@@ -41,7 +39,7 @@ func mustURIResolve(pkt interface{}) (uri string, pType reflect.Type) {
 	pType = reflect.TypeOf(pkt)
 	if protoMsg, ok := pkt.(proto.Message); ok {
 		// use proto message name if is a proto message
-		uri = string(protoreflect.MessageDescriptor.FullName(protoMsg))
+		uri = proto.MessageName(protoMsg)
 	} else {
 		// otherwise just get type name
 		uri = pType.Elem().Name()

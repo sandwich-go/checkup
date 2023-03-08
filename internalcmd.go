@@ -2,9 +2,9 @@ package internalcmd
 
 import (
 	"encoding/binary"
+	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/sandwich-go/boost/xencoding"
 	"github.com/sandwich-go/boost/z"
 )
 
@@ -21,25 +21,27 @@ type InternalCmd struct {
 	PassThrough string `json:"passThrough"`
 }
 
-func (i InternalCmd) Marshal(v interface{}) ([]byte, error) {
+func Marshal(v interface{}) ([]byte, error) {
 	if _, ok := v.(*InternalCmd); !ok {
 		return nil, errors.New("Marshal InternalCmd failed, v is not an InternalCmd")
 	}
-	b, err := xencoding.GetCodec("json").Marshal(v)
+	b, err := json.Marshal(v)
 	if err != nil {
 		return nil, err
 	}
 	data := make([]byte, len(b)+1)
 	data[0] = magicNumber
 	copy(data[1:], b)
+	fmt.Println(data)
 	return data, nil
 }
 
-func (i InternalCmd) Unmarshal(data []byte, v interface{}) error {
+func Unmarshal(data []byte, v interface{}) error {
 	if data[0] != magicNumber {
 		return errors.New("Unmarshal InternalCmd err, magicNumber verify failed")
 	}
-	return xencoding.GetCodec("json").Unmarshal(data[1:], v)
+	err := json.Unmarshal(data[1:], v)
+	return err
 }
 
 func readString(data []byte, pos uint32, tlvLen uint32) (string, uint32) {

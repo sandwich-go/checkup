@@ -1,15 +1,9 @@
-/**
-* @Author: biyongze
-* @Date:2023/3/2 19:37
-* Description:
- */
 package internalcmd
 
 import (
 	"context"
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	"google.golang.org/protobuf/reflect/protoreflect"
 	"sync"
 )
 
@@ -33,7 +27,7 @@ func (i *InternalCmdManager) Register(uri string, h handler) {
 }
 
 func (i *InternalCmdManager) IsInternalCmd(msg proto.Message) bool {
-	uri := string(protoreflect.MessageDescriptor.FullName(msg))
+	uri := proto.MessageName(msg)
 	if _, h := i.m[uri]; !h {
 		return false
 	}
@@ -41,7 +35,7 @@ func (i *InternalCmdManager) IsInternalCmd(msg proto.Message) bool {
 }
 
 func (i *InternalCmdManager) HandleInternalCmd(ctx context.Context, msg proto.Message) (proto.Message, error) {
-	uri := string(protoreflect.MessageDescriptor.FullName(msg))
+	uri := proto.MessageName(msg)
 	hdl, h := i.m[uri]
 	if !h {
 		return nil, fmt.Errorf("msg %s is not internalCmd", uri)
