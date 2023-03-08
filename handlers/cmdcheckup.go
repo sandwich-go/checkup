@@ -6,5 +6,5 @@ import (
 )
 
 func HandleCmdCheckUp(ctx context.Context, msg proto.Message) (proto.Message, error) {
-
+	return msg, nil
 }

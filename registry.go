@@ -1,9 +1,9 @@
 package internalcmd
 
 import (
-	"bitbucket.org/funplus/sandwich/protocol/gen/golang/internal_command"
-	"bitbucket.org/funplus/sandwich/protocol/netutils"
 	"github.com/golang/protobuf/proto"
+	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
+	"github.com/sandwich-go/internalcmd/protocol/netutils"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"reflect"
 )

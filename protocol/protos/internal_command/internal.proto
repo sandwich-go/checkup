@@ -1,6 +1,6 @@
 syntax = "proto3";
 package netutils;
-option go_package = "bitbucket.org/funplus/sandwich/protocol/internal_command";
+option go_package = "github.com/sandwich-go/internalcmd/protocol/internal_command";
 
 //CSHARP_NAMESPACE
 message CmdStream {
