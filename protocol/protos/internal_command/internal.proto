@@ -10,7 +10,7 @@ message CmdStream {
 }
 
 // for internal use
-message CmdPing {int64 timestamp = 1;}
+/*message CmdPing {int64 timestamp = 1;}
 message CmdPingAck {int64 timestamp = 1;}
 
 // for devops checkup
@@ -18,10 +18,11 @@ message CmdCheckup {
   int32 code = 1;
   string message = 2;
   bytes CustomMeasurements = 3;
-}
+}*/
 
+/*
 service InternalCmd {
   rpc CmdPing (internal_command.CmdPing) returns (internal_command.CmdPingAck) {}
   rpc CmdCheckup (internal_command.CmdCheckup) returns (internal_command.CmdCheckup) {}
   rpc CmdBuildStream (internal_command.CmdStream) returns (internal_command.CmdStream) {}
-}
+}*/

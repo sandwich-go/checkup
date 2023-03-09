@@ -6,13 +6,12 @@ package internalcmd
 import (
 	"context"
 
-	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
 	"github.com/sandwich-go/internalcmd/protocol/netutils"
 )
 
 // Options should use NewOptions to initialize it
 type Options struct {
-	DevopsCheckup func(ctx context.Context) *internal_command.CmdCheckup
+	DevopsCheckup func(ctx context.Context) *netutils.CmdCheckup
 	// Stream
 	IStream     IStream
 	ISteamCache IStreamCache
@@ -41,7 +40,7 @@ func (cc *Options) ApplyOption(opts ...Option) {
 type Option func(cc *Options)
 
 // WithDevopsCheckup option func for filed DevopsCheckup
-func WithDevopsCheckup(v func(ctx context.Context) *internal_command.CmdCheckup) Option {
+func WithDevopsCheckup(v func(ctx context.Context) *netutils.CmdCheckup) Option {
 	return func(cc *Options) {
 		cc.DevopsCheckup = v
 	}
@@ -72,8 +71,8 @@ func newDefaultOptions() *Options {
 	cc := &Options{}
 
 	for _, opt := range [...]Option{
-		WithDevopsCheckup(func(ctx context.Context) *internal_command.CmdCheckup {
-			return &internal_command.CmdCheckup{Code: netutils.ErrorCode_OK.NumberInt32(), Message: "default ok"}
+		WithDevopsCheckup(func(ctx context.Context) *netutils.CmdCheckup {
+			return &netutils.CmdCheckup{Code: netutils.ErrorCode_OK.NumberInt32(), Message: "default ok"}
 		}),
 		WithIStream(nil),
 		WithISteamCache(nil),
@@ -85,7 +84,7 @@ func newDefaultOptions() *Options {
 }
 
 // all getter func
-func (cc *Options) GetDevopsCheckup() func(ctx context.Context) *internal_command.CmdCheckup {
+func (cc *Options) GetDevopsCheckup() func(ctx context.Context) *netutils.CmdCheckup {
 	return cc.DevopsCheckup
 }
 func (cc *Options) GetIStream() IStream          { return cc.IStream }
@@ -93,7 +92,7 @@ func (cc *Options) GetISteamCache() IStreamCache { return cc.ISteamCache }
 
 // OptionsVisitor visitor interface for Options
 type OptionsVisitor interface {
-	GetDevopsCheckup() func(ctx context.Context) *internal_command.CmdCheckup
+	GetDevopsCheckup() func(ctx context.Context) *netutils.CmdCheckup
 	GetIStream() IStream
 	GetISteamCache() IStreamCache
 }

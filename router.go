@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
+	"github.com/sandwich-go/internalcmd/protocol/gen/golang/netutils"
 	"sync"
 )
 
@@ -21,9 +22,9 @@ var (
 )
 
 func init() {
-	GetRouter().RegisterHandler(proto.MessageName(&internal_command.CmdPing{}), handleCmdPing)
+	GetRouter().RegisterHandler(proto.MessageName(&netutils.CmdPing{}), handleCmdPing)
 	GetRouter().RegisterHandler(proto.MessageName(&internal_command.CmdStream{}), handleCmdStream)
-	GetRouter().RegisterHandler(proto.MessageName(&internal_command.CmdCheckup{}), handleCmdCheckUp)
+	GetRouter().RegisterHandler(proto.MessageName(&netutils.CmdCheckup{}), handleCmdCheckUp)
 }
 
 func GetRouter() *Router {
