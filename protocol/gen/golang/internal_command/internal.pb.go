@@ -212,8 +212,8 @@ func (m *CmdCheckup) GetCustomMeasurements() []byte {
 }
 
 func init() {
-	proto.RegisterType((*CmdStream)(nil), "internal_command.CmdStream")
-	proto.RegisterMapType((map[string]string)(nil), "internal_command.CmdStream.MetaEntry")
+	proto.RegisterType((*CmdStream)(nil), "internal_command.cmdStream")
+	proto.RegisterMapType((map[string]string)(nil), "internal_command.cmdStream.MetaEntry")
 	proto.RegisterType((*CmdPing)(nil), "internal_command.CmdPing")
 	proto.RegisterType((*CmdPingAck)(nil), "internal_command.CmdPingAck")
 	proto.RegisterType((*CmdCheckup)(nil), "internal_command.CmdCheckup")
