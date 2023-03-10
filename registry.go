@@ -3,7 +3,6 @@ package internalcmd
 import (
 	"github.com/golang/protobuf/proto"
 	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
-	"github.com/sandwich-go/internalcmd/protocol/gen/golang/netutils"
 	"reflect"
 )
 
@@ -16,9 +15,9 @@ func init() {
 		creators: make(map[string]func() interface{}),
 	}
 	globalRegistry.Register(
-		&netutils.CmdPing{},
-		&netutils.CmdPingAck{},
-		&netutils.CmdCheckup{},
+		&internal_command.CmdPing{},
+		&internal_command.CmdPingAck{},
+		&internal_command.CmdCheckup{},
 		&internal_command.CmdStream{},
 	)
 }

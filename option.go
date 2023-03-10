@@ -2,7 +2,8 @@ package internalcmd
 
 import (
 	"context"
-	"github.com/sandwich-go/internalcmd/protocol/netutils"
+	"github.com/sandwich-go/internalcmd/protocol/gen/golang/common"
+	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
 	"net"
 )
 
@@ -11,8 +12,8 @@ type StreamHandler = func(conn net.Conn, args *StreamArgs)
 //go:generate optionGen  --option_return_previous=false
 func OptionsOptionDeclareWithDefault() interface{} {
 	return map[string]interface{}{
-		"DevopsCheckup": func(ctx context.Context) *netutils.CmdCheckup {
-			return &netutils.CmdCheckup{Code: netutils.ErrorCode_OK.NumberInt32(), Message: "default ok"}
+		"DevopsCheckup": func(ctx context.Context) *internal_command.CmdCheckup {
+			return &internal_command.CmdCheckup{Code: int32(common.ErrorCode_OK), Message: "default ok"}
 		},
 		// Stream
 		"IStream":     IStream(nil),

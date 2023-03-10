@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	"github.com/sandwich-go/boost/z"
-	"github.com/sandwich-go/internalcmd/protocol/netutils"
+	"github.com/sandwich-go/internalcmd/protocol/gen/golang/common"
+	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
 	"time"
 )
 
 func handleCmdCheckUp(ctx context.Context, r interface{}, opts ...interface{}) (proto.Message, error) {
-	_, ok := r.(*netutils.CmdCheckup)
+	_, ok := r.(*internal_command.CmdCheckup)
 	if !ok {
-		return &netutils.CmdCheckup{Code: netutils.ErrorCode_Unknown.NumberInt32(), Message: ErrReqType.Error()}, ErrReqType
+		return &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: ErrReqType.Error()}, ErrReqType
 	}
 
 	tsStart := time.Now()
@@ -20,9 +21,9 @@ func handleCmdCheckUp(ctx context.Context, r interface{}, opts ...interface{}) (
 		return GetOptions().GetDevopsCheckup()(ctx), nil
 	})
 	if err != nil {
-		return &netutils.CmdCheckup{Code: netutils.ErrorCode_Unknown.NumberInt32(), Message: err.Error()}, err
+		return &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: err.Error()}, err
 	}
-	cresp := rr.(*netutils.CmdCheckup)
+	cresp := rr.(*internal_command.CmdCheckup)
 	if cresp.CustomMeasurements == nil || len(cresp.CustomMeasurements) == 0 {
 		cresp.CustomMeasurements = z.StringToBytes(fmt.Sprintf("%s_%s", tsStart, time.Now().Sub(tsStart)))
 	}
