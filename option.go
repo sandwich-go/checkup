@@ -13,7 +13,7 @@ type StreamHandler = func(conn net.Conn, args *StreamArgs)
 func OptionsOptionDeclareWithDefault() interface{} {
 	return map[string]interface{}{
 		"DevopsCheckup": func(ctx context.Context) *internal_command.CmdCheckup {
-			return &internal_command.CmdCheckup{Code: int32(common.ErrorCode_OK), Message: "default ok"}
+			return &internal_command.CmdCheckup{Code: common.ErrorCode_OK.NumberInt32(), Message: "default ok"}
 		},
 		// Stream
 		"IStream":     IStream(nil),

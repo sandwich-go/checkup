@@ -33,4 +33,4 @@ vue:
   gen_vue_code: false
 
 java_script:
-  gen_js_code: true
+  gen_js_code: false

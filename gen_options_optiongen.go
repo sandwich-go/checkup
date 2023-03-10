@@ -73,7 +73,7 @@ func newDefaultOptions() *Options {
 
 	for _, opt := range [...]Option{
 		WithDevopsCheckup(func(ctx context.Context) *internal_command.CmdCheckup {
-			return &internal_command.CmdCheckup{Code: common.ErrorCode_OK, Message: "default ok"}
+			return &internal_command.CmdCheckup{Code: common.ErrorCode_OK.NumberInt32(), Message: "default ok"}
 		}),
 		WithIStream(nil),
 		WithISteamCache(nil),
