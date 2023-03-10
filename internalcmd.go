@@ -15,6 +15,13 @@ type InternalCmd struct {
 	PassThrough string `json:"passThrough,omitempty"`
 }
 
+func MarshalInternalCmd(b []byte) []byte {
+	data := make([]byte, len(b)+1)
+	data[0] = magicNumber
+	copy(data[1:], b)
+	return data
+}
+
 func IsInternalCmd(b []byte) bool {
 	if len(b) < 1 {
 		return false
@@ -26,10 +33,6 @@ func IsInternalCmd(b []byte) bool {
 }
 
 func HandleInternalCmd(ctx context.Context, b []byte, opts ...interface{}) (bo []byte, err error) {
-	if !IsInternalCmd(b) {
-		return nil, ErrUnmarshalNotInternalCmd
-	}
-
 	icmd := &InternalCmd{}
 	err = Unmarshal(b, icmd)
 	if err != nil {

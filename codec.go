@@ -28,9 +28,9 @@ func Marshal(v interface{}) ([]byte, error) {
 }
 
 func Unmarshal(data []byte, v interface{}) error {
-	if data[0] != magicNumber {
+	/*if data[0] != magicNumber {
 		return ErrUnmarshalNotInternalCmd
-	}
-	err := json.Unmarshal(data[1:], v)
+	}*/
+	err := json.Unmarshal(data, v)
 	return err
 }

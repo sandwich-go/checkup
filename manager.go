@@ -15,6 +15,10 @@ func New(opts ...Option) *Manager {
 	return GlobalManager
 }
 
+func ApplyOption(opts ...Option) {
+	GlobalManager.cc.ApplyOption(opts...)
+}
+
 func GetOptions() *Options {
 	return GlobalManager.cc
 }

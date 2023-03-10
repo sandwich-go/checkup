@@ -52,5 +52,5 @@ func (i *Router) Handle(ctx context.Context, cmd *InternalCmd) (proto.Message, e
 		return nil, err
 	}
 
-	return i.m[cmd.Uri](ctx, cmd, o)
+	return i.m[cmd.Uri](ctx, o)
 }
