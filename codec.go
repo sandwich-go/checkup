@@ -2,10 +2,9 @@ package internalcmd
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
-const magicNumber byte = 0xCD
+const magicNumber byte = 0x7B
 
 type Codec interface {
 	Marshal(v interface{}) ([]byte, error)
@@ -20,17 +19,10 @@ func Marshal(v interface{}) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	data := make([]byte, len(b)+1)
-	data[0] = magicNumber
-	copy(data[1:], b)
-	fmt.Println(data)
-	return data, nil
+	return b, nil
 }
 
 func Unmarshal(data []byte, v interface{}) error {
-	/*if data[0] != magicNumber {
-		return ErrUnmarshalNotInternalCmd
-	}*/
 	err := json.Unmarshal(data, v)
 	return err
 }
