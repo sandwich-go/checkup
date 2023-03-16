@@ -21,8 +21,6 @@ var (
 )
 
 func init() {
-	GetRouter().RegisterHandler(proto.MessageName(&internal_command.CmdPing{}), handleCmdPing)
-	GetRouter().RegisterHandler(proto.MessageName(&internal_command.CmdStream{}), handleCmdStream)
 	GetRouter().RegisterHandler(proto.MessageName(&internal_command.CmdCheckup{}), handleCmdCheckUp)
 }
 

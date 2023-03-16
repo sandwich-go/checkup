@@ -38,9 +38,6 @@ func MustRegisterPackageMessages(ms message.Registry) {
 	ms.Register(new(common.Ping))
 	ms.Register(new(common.PingAck))
 	ms.Register(new(internal_command.CmdCheckup))
-	ms.Register(new(internal_command.CmdPing))
-	ms.Register(new(internal_command.CmdPingAck))
-	ms.Register(new(internal_command.CmdStream))
 
 	initActorRequestUriMap(ms)
 }

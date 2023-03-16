@@ -22,14 +22,14 @@ func MarshalInternalCmd(b []byte) []byte {
 	return data
 }
 
-func IsInternalCmd(b []byte) bool {
+func IsInternalCmd(b []byte) ([]byte, bool) {
 	if len(b) < 1 {
-		return false
+		return nil, false
 	}
 	if b[0] != magicNumber {
-		return false
+		return nil, false
 	}
-	return true
+	return b[1:], true
 }
 
 func HandleInternalCmd(ctx context.Context, b []byte, opts ...interface{}) (bo []byte, err error) {

@@ -15,10 +15,7 @@ func init() {
 		creators: make(map[string]func() interface{}),
 	}
 	globalRegistry.Register(
-		&internal_command.CmdPing{},
-		&internal_command.CmdPingAck{},
 		&internal_command.CmdCheckup{},
-		&internal_command.CmdStream{},
 	)
 }
 
