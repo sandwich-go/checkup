@@ -17,17 +17,10 @@ type InternalCmd struct {
 内部消息的传输数据是一段json。是将internalcmd.InternalCmd Marshal成json。没有另外增加magic head，json开头为固定的{，可作为magic head做快速识别。
 以probe发送CmdCheckup为例：
 ````golang
-b, _ := json.Marshal(&internalcmd.InternalCmd{
-    Uri: proto.MessageName(&internal_command.CmdCheckup{}),
-    Raw: func() []byte {
-        b, err := json.Marshal(&internal_command.CmdCheckup{})
-        if err != nil {
-            return nil
-        }
-        return b
-    }(),
-    PassThrough: "123",
-})
+// 获取CmdCheckup的[]byte
+b := internalcmd.NewInternalCmd(&internal_command.CmdCheckup{}, "123")
+// 以TCP或http方式发送到目标服
+ss.WriteFrame(b)
 ````
 shell脚本发送：
 ````shell

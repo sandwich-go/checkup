@@ -25,6 +25,22 @@ func IsInternalCmd(b []byte) bool {
 	return true
 }
 
+func NewInternalCmd(msg proto.Message, pt string) []byte {
+	b, _ := json.Marshal(&InternalCmd{
+		Uri: proto.MessageName(msg),
+		Raw: func() []byte {
+			b, err := json.Marshal(msg)
+			if err != nil {
+				return nil
+			}
+			return b
+		}(),
+		PassThrough: pt,
+	})
+
+	return b
+}
+
 func HandleInternalCmd(ctx context.Context, bytesIn []byte, opts ...interface{}) (bo []byte, err error) {
 	ok := IsInternalCmd(bytesIn)
 	if !ok {
