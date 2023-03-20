@@ -16,8 +16,8 @@ import (
 	protobufEmpty "google.golang.org/protobuf/types/known/emptypb"
 
 	// dynamic import
-	common "github.com/sandwich-go/internalcmd/protocol/gen/golang/common"
-	internal_command "github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
+	common "github.com/sandwich-go/checkup/protocol/gen/golang/common"
+	internal_command "github.com/sandwich-go/checkup/protocol/gen/golang/internal_command"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

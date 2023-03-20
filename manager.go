@@ -1,4 +1,4 @@
-package internalcmd
+package checkup
 
 import "github.com/sandwich-go/boost/singleflight"
 

@@ -16,7 +16,7 @@ golang:
   create_go_mod: false
   enable_zap_log_marshal: true
   zap_log_map_key_types: int,int32,uint32,int64,uint64,string
-  base_package_path: github.com/sandwich-go/internalcmd/protocol/gen/golang
+  base_package_path: github.com/sandwich-go/checkup/protocol/gen/golang
   version_sandwich: v1.2.0-beta.4
   using_github_logbus: true
 

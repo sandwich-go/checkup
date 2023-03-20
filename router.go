@@ -1,4 +1,4 @@
-package internalcmd
+package checkup
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
+	"github.com/sandwich-go/checkup/protocol/gen/golang/internal_command"
 	"sync"
 )
 

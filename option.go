@@ -1,9 +1,9 @@
-package internalcmd
+package checkup
 
 import (
 	"context"
-	"github.com/sandwich-go/internalcmd/protocol/gen/golang/common"
-	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
+	"github.com/sandwich-go/checkup/protocol/gen/golang/common"
+	"github.com/sandwich-go/checkup/protocol/gen/golang/internal_command"
 )
 
 //go:generate optionGen  --option_return_previous=false

@@ -1,4 +1,4 @@
-module github.com/sandwich-go/internalcmd
+module github.com/sandwich-go/checkup
 
 go 1.18
 

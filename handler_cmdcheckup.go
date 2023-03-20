@@ -1,12 +1,12 @@
-package internalcmd
+package checkup
 
 import (
 	"context"
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	"github.com/sandwich-go/boost/z"
-	"github.com/sandwich-go/internalcmd/protocol/gen/golang/common"
-	"github.com/sandwich-go/internalcmd/protocol/gen/golang/internal_command"
+	"github.com/sandwich-go/checkup/protocol/gen/golang/common"
+	"github.com/sandwich-go/checkup/protocol/gen/golang/internal_command"
 	"time"
 )
 
