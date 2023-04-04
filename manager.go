@@ -1,8 +1,12 @@
 package checkup
 
-import "github.com/sandwich-go/boost/singleflight"
+import (
+	"github.com/sandwich-go/boost/singleflight"
+	"sync"
+)
 
 var GlobalManager *Manager
+var GlobalManagerOnce sync.Once
 
 type Manager struct {
 	cc    *Options
@@ -10,8 +14,10 @@ type Manager struct {
 }
 
 func New(opts ...Option) *Manager {
-	cfg := NewOptions(opts...)
-	GlobalManager = &Manager{cc: cfg, fight: &singleflight.Group{}}
+	GlobalManagerOnce.Do(func() {
+		cfg := NewOptions(opts...)
+		GlobalManager = &Manager{cc: cfg, fight: &singleflight.Group{}}
+	})
 	return GlobalManager
 }
 
