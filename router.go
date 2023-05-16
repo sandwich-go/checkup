@@ -14,10 +14,9 @@ var internalCmdMgr *Router
 var mgrOnce sync.Once
 
 var (
-	ErrReqType                 = errors.New("request type invalid")
-	ErrMarshalType             = errors.New("marshal InternalCmd failed, v is not an InternalCmd")
-	ErrUnmarshalNotInternalCmd = errors.New("unmarshal InternalCmd err, magicNumber verify failed")
-	ErrUriNil                  = errors.New("internal cmd uri is nil")
+	ErrReqType     = errors.New("request type invalid")
+	ErrMarshalType = errors.New("marshal InternalCmd failed, v is not an InternalCmd")
+	ErrUriNil      = errors.New("internal cmd uri is nil")
 )
 
 func init() {
@@ -43,7 +42,7 @@ func (i *Router) RegisterHandler(uri string, h handler) {
 func (i *Router) Handle(ctx context.Context, cmd *InternalCmd) (proto.Message, error) {
 	o, ok := globalRegistry.NewObject(cmd.Uri)
 	if !ok {
-		return nil, fmt.Errorf("Get handler failed for internal cmd uir:%s", cmd.Uri)
+		return nil, fmt.Errorf("get handler failed for internal cmd uri:%s", cmd.Uri)
 	}
 
 	if err := json.Unmarshal(cmd.Raw, o); err != nil {

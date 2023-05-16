@@ -23,9 +23,9 @@ func handleCmdCheckUp(ctx context.Context, r interface{}, opts ...interface{}) (
 	if err != nil {
 		return &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: err.Error()}, err
 	}
-	cresp := rr.(*internal_command.CmdCheckup)
-	if cresp.CustomMeasurements == nil || len(cresp.CustomMeasurements) == 0 {
-		cresp.CustomMeasurements = z.StringToBytes(fmt.Sprintf("%s_%s", tsStart, time.Now().Sub(tsStart)))
+	resp := rr.(*internal_command.CmdCheckup)
+	if resp.CustomMeasurements == nil || len(resp.CustomMeasurements) == 0 {
+		resp.CustomMeasurements = z.StringToBytes(fmt.Sprintf("%s_%s", tsStart, time.Now().Sub(tsStart)))
 	}
-	return cresp, nil
+	return resp, nil
 }

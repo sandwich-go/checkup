@@ -24,7 +24,6 @@ func Marshal(v interface{}) ([]byte, error) {
 	return b, nil
 }
 
-// Unmarshal ErrUnmarshalNotInternalCmd is returned when the magicNumber verify failed.
 func Unmarshal(data []byte, v interface{}) error {
 	err := json.Unmarshal(data, v)
 	return err

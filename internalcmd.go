@@ -25,7 +25,7 @@ func IsInternalCmd(b []byte) bool {
 	return true
 }
 
-func NewInternalCmd(msg proto.Message, pt string) []byte {
+func NewInternalCmd(msg proto.Message) []byte {
 	b, _ := json.Marshal(&InternalCmd{
 		Uri: proto.MessageName(msg),
 		Raw: func() []byte {
@@ -35,7 +35,6 @@ func NewInternalCmd(msg proto.Message, pt string) []byte {
 			}
 			return b
 		}(),
-		PassThrough: pt,
 	})
 
 	return b
