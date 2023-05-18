@@ -40,19 +40,19 @@ func NewInternalCmd(msg proto.Message) []byte {
 	return b
 }
 
-func HandleInternalCmd(ctx context.Context, bytesIn []byte, opts ...interface{}) (bo []byte, err error) {
+func HandleInternalCmd(ctx context.Context, bytesIn []byte, opts ...interface{}) (bo []byte, b bool, err error) {
 	ok := IsInternalCmd(bytesIn)
 	if !ok {
-		return nil, nil
+		return nil, false, nil
 	}
 
 	icmd := &InternalCmd{}
 	err = Unmarshal(bytesIn, icmd)
 	if err != nil {
-		return nil, err
+		return nil, false, nil
 	}
 	if icmd.Uri == "" {
-		return nil, ErrUriNil
+		return nil, true, ErrUriNil
 	}
 
 	ret, err := GetRouter().Handle(ctx, icmd)
@@ -70,5 +70,5 @@ func HandleInternalCmd(ctx context.Context, bytesIn []byte, opts ...interface{})
 		PassThrough: "",
 	})
 
-	return
+	return bo, true, nil
 }
