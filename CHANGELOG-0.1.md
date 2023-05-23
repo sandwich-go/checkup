@@ -1,3 +1,11 @@
+### v0.1.0-alpha.2 (2023-05-18 11:51:56)
+
+#### 🤖  Tools
+  * **sem**: make changelog ([0409366](https://github.com/sandwich-go/logbus/commit/04093669575dd35ea48f66477b2eeb5c3098a121)) (<small>[biyongze](yongze.bi@centurygame.com)@2023-05-17 12:17:30 &#43;0800 &#43;0800</small>)
+
+#### 💪  Commit
+  * checkup modify ([7eede33](https://github.com/sandwich-go/logbus/commit/7eede3331d3fb51dcfeb8c8a6c7b41b8f821b907)) (<small>[biyongze](yongze.bi@centurygame.com)@2023-05-18 11:51:56 &#43;0800 &#43;0800</small>)
+
 ### v0.1.0-alpha.1 (2023-05-16 20:20:36)
 
 #### 🤖  Tools
