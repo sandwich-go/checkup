@@ -48,11 +48,8 @@ func HandleInternalCmd(ctx context.Context, bytesIn []byte, opts ...interface{})
 
 	icmd := &InternalCmd{}
 	err = Unmarshal(bytesIn, icmd)
-	if err != nil {
+	if err != nil || icmd.Uri == "" {
 		return nil, false, nil
-	}
-	if icmd.Uri == "" {
-		return nil, true, ErrUriNil
 	}
 
 	ret, err := GetRouter().Handle(ctx, icmd)
