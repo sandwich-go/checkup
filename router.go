@@ -16,7 +16,6 @@ var mgrOnce sync.Once
 var (
 	ErrReqType     = errors.New("request type invalid")
 	ErrMarshalType = errors.New("marshal InternalCmd failed, v is not an InternalCmd")
-	ErrUriNil      = errors.New("internal cmd uri is nil")
 )
 
 func init() {
