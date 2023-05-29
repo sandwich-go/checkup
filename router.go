@@ -28,7 +28,7 @@ func GetRouter() *Router {
 	return internalCmdMgr
 }
 
-type handler func(context.Context, interface{}) proto.Message
+type handler func(context.Context, interface{}, *Manager) proto.Message
 type Router struct {
 	m map[string]handler
 }
@@ -37,17 +37,17 @@ func (i *Router) RegisterHandler(uri string, h handler) {
 	i.m[uri] = h
 }
 
-func (i *Router) Handle(ctx context.Context, cmd *InternalCmd) proto.Message {
+func (i *Router) Handle(ctx context.Context, cmd *InternalCmd, m *Manager) proto.Message {
 	o, ok := globalRegistry.NewObject(cmd.Uri)
 	if !ok {
-		LogError(fmt.Errorf("get handler failed for internal cmd uri:%s", cmd.Uri))
+		m.LogError(fmt.Errorf("get handler failed for internal cmd uri:%s", cmd.Uri))
 		return nil
 	}
 
 	if err := json.Unmarshal(cmd.Raw, o); err != nil {
-		LogError(err)
+		m.LogError(err)
 		return nil
 	}
 
-	return i.m[cmd.Uri](ctx, o)
+	return i.m[cmd.Uri](ctx, o, m)
 }

@@ -4,10 +4,6 @@ import (
 	"log"
 )
 
-func LogError(err error) {
-	GetOptions().GetLogErrorFunc()(err)
-}
-
 type Logger struct {
 	*log.Logger
 }

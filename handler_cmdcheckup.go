@@ -10,15 +10,15 @@ import (
 	"time"
 )
 
-func handleCmdCheckUp(ctx context.Context, r interface{}) proto.Message {
+func handleCmdCheckUp(ctx context.Context, r interface{}, m *Manager) proto.Message {
 	_, ok := r.(*internal_command.CmdCheckup)
 	if !ok {
 		return &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: ErrReqType.Error()}
 	}
 
 	tsStart := time.Now()
-	rr, err := GetCheckUpFlight().Do("checkup", func() (interface{}, error) {
-		return GetOptions().GetDevopsCheckup()(ctx), nil
+	rr, err := m.Fight.Do("checkup", func() (interface{}, error) {
+		return m.Cc.GetDevopsCheckup()(ctx), nil
 	})
 	if err != nil {
 		return &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: err.Error()}

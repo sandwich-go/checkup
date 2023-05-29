@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/golang/protobuf/proto"
+	"github.com/sandwich-go/boost/singleflight"
 )
 
 const magicNumber byte = 0x7B
@@ -43,7 +44,17 @@ func NewFrame(msg proto.Message) []byte {
 	return b
 }
 
-func HandleInternalCmd(ctx context.Context, bytesIn []byte) (bo []byte, b bool) {
+type Manager struct {
+	Cc    *Options
+	Fight *singleflight.Group
+}
+
+func NewManager(opts ...Option) *Manager {
+	cfg := NewOptions(opts...)
+	return &Manager{Cc: cfg, Fight: &singleflight.Group{}}
+}
+
+func (m *Manager) HandleInternalCmd(ctx context.Context, bytesIn []byte) (bo []byte, b bool) {
 	b = false
 	ok := CheckMagicNumber(bytesIn)
 	if !ok {
@@ -53,11 +64,11 @@ func HandleInternalCmd(ctx context.Context, bytesIn []byte) (bo []byte, b bool) 
 	icmd := &InternalCmd{}
 	err := json.Unmarshal(bytesIn, icmd)
 	if err != nil || icmd.Uri == "" {
-		LogError(err)
+		m.LogError(err)
 		return nil, false
 	}
 
-	ret := GetRouter().Handle(ctx, icmd)
+	ret := GetRouter().Handle(ctx, icmd, m)
 
 	bo, err1 := json.Marshal(&InternalCmd{
 		Uri: proto.MessageName(ret),
@@ -71,8 +82,12 @@ func HandleInternalCmd(ctx context.Context, bytesIn []byte) (bo []byte, b bool) 
 		PassThrough: "",
 	})
 	if err1 != nil {
-		LogError(fmt.Errorf("unmarshal internal cmd failed. Err %s", err1.Error()))
+		m.LogError(fmt.Errorf("unmarshal internal cmd failed. Err %s", err1.Error()))
 	}
 
-	return bo, b
+	return bo, true
+}
+
+func (m *Manager) LogError(err error) {
+	m.Cc.GetLogErrorFunc()(err)
 }
