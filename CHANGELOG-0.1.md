@@ -1,3 +1,13 @@
+### v0.1.0-alpha.4 (2023-05-29 12:04:17)
+
+#### 🤖  Tools
+  * **sem**: make changelog ([be5efa4](https://github.com/sandwich-go/logbus/commit/be5efa4e3a7a83436a9c6c393a2cce5d9c8cff0b)) (<small>[biyongze](yongze.bi@centurygame.com)@2023-05-24 20:32:37 &#43;0800 &#43;0800</small>)
+
+#### 💪  Commit
+  * checkup tidy ([c79ea3a](https://github.com/sandwich-go/logbus/commit/c79ea3a4ffa3d4761dfff6ed54ec33f63c5d1042)) (<small>[biyongze](yongze.bi@centurygame.com)@2023-05-29 12:04:17 &#43;0800 &#43;0800</small>)
+  * delete test ([a3b42d5](https://github.com/sandwich-go/logbus/commit/a3b42d5d13a69e701c5af01ab1b4dd22f85dc665)) (<small>[biyongze](yongze.bi@centurygame.com)@2023-05-26 14:13:55 &#43;0800 &#43;0800</small>)
+  * delete unused error ([01e434b](https://github.com/sandwich-go/logbus/commit/01e434bdd8dc9431f932f2a6d7657e3c3239baec)) (<small>[biyongze](yongze.bi@centurygame.com)@2023-05-26 14:07:18 &#43;0800 &#43;0800</small>)
+
 ### v0.1.0-alpha.3 (2023-05-24 20:32:16)
 
 #### 🤖  Tools
