@@ -10,10 +10,10 @@ import (
 	"time"
 )
 
-func handleCmdCheckUp(ctx context.Context, r interface{}, opts ...interface{}) (proto.Message, error) {
+func handleCmdCheckUp(ctx context.Context, r interface{}) proto.Message {
 	_, ok := r.(*internal_command.CmdCheckup)
 	if !ok {
-		return &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: ErrReqType.Error()}, ErrReqType
+		return &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: ErrReqType.Error()}
 	}
 
 	tsStart := time.Now()
@@ -21,11 +21,11 @@ func handleCmdCheckUp(ctx context.Context, r interface{}, opts ...interface{}) (
 		return GetOptions().GetDevopsCheckup()(ctx), nil
 	})
 	if err != nil {
-		return &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: err.Error()}, err
+		return &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: err.Error()}
 	}
 	resp := rr.(*internal_command.CmdCheckup)
 	if resp.CustomMeasurements == nil || len(resp.CustomMeasurements) == 0 {
 		resp.CustomMeasurements = z.StringToBytes(fmt.Sprintf("%s_%s", tsStart, time.Now().Sub(tsStart)))
 	}
-	return resp, nil
+	return resp
 }

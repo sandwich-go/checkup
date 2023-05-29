@@ -14,8 +14,7 @@ var internalCmdMgr *Router
 var mgrOnce sync.Once
 
 var (
-	ErrReqType     = errors.New("request type invalid")
-	ErrMarshalType = errors.New("marshal InternalCmd failed, v is not an InternalCmd")
+	ErrReqType = errors.New("request type invalid")
 )
 
 func init() {
@@ -29,7 +28,7 @@ func GetRouter() *Router {
 	return internalCmdMgr
 }
 
-type handler func(context.Context, interface{}, ...interface{}) (proto.Message, error)
+type handler func(context.Context, interface{}) proto.Message
 type Router struct {
 	m map[string]handler
 }
@@ -38,14 +37,16 @@ func (i *Router) RegisterHandler(uri string, h handler) {
 	i.m[uri] = h
 }
 
-func (i *Router) Handle(ctx context.Context, cmd *InternalCmd) (proto.Message, error) {
+func (i *Router) Handle(ctx context.Context, cmd *InternalCmd) proto.Message {
 	o, ok := globalRegistry.NewObject(cmd.Uri)
 	if !ok {
-		return nil, fmt.Errorf("get handler failed for internal cmd uri:%s", cmd.Uri)
+		LogError(fmt.Errorf("get handler failed for internal cmd uri:%s", cmd.Uri))
+		return nil
 	}
 
 	if err := json.Unmarshal(cmd.Raw, o); err != nil {
-		return nil, err
+		LogError(err)
+		return nil
 	}
 
 	return i.m[cmd.Uri](ctx, o)

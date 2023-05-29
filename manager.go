@@ -5,6 +5,8 @@ import (
 	"sync"
 )
 
+var ManagerMap sync.Map
+
 var GlobalManager *Manager
 var GlobalManagerOnce sync.Once
 

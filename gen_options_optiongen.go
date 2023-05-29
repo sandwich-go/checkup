@@ -13,6 +13,7 @@ import (
 // Options should use NewOptions to initialize it
 type Options struct {
 	DevopsCheckup func(ctx context.Context) *internal_command.CmdCheckup
+	LogErrorFunc  LogErrorFunc
 }
 
 // NewOptions new Options
@@ -44,6 +45,13 @@ func WithDevopsCheckup(v func(ctx context.Context) *internal_command.CmdCheckup)
 	}
 }
 
+// WithLogErrorFunc option func for filed LogErrorFunc
+func WithLogErrorFunc(v LogErrorFunc) Option {
+	return func(cc *Options) {
+		cc.LogErrorFunc = v
+	}
+}
+
 // InstallOptionsWatchDog the installed func will called when NewOptions  called
 func InstallOptionsWatchDog(dog func(cc *Options)) { watchDogOptions = dog }
 
@@ -58,6 +66,7 @@ func newDefaultOptions() *Options {
 		WithDevopsCheckup(func(ctx context.Context) *internal_command.CmdCheckup {
 			return &internal_command.CmdCheckup{Code: common.ErrorCode_OK.NumberInt32(), Message: "default ok"}
 		}),
+		WithLogErrorFunc(NewLogger(nil).LogErrorAndEatError),
 	} {
 		opt(cc)
 	}
@@ -69,10 +78,12 @@ func newDefaultOptions() *Options {
 func (cc *Options) GetDevopsCheckup() func(ctx context.Context) *internal_command.CmdCheckup {
 	return cc.DevopsCheckup
 }
+func (cc *Options) GetLogErrorFunc() LogErrorFunc { return cc.LogErrorFunc }
 
 // OptionsVisitor visitor interface for Options
 type OptionsVisitor interface {
 	GetDevopsCheckup() func(ctx context.Context) *internal_command.CmdCheckup
+	GetLogErrorFunc() LogErrorFunc
 }
 
 // OptionsInterface visitor + ApplyOption interface for Options
