@@ -13,7 +13,7 @@ import (
 // Options should use NewOptions to initialize it
 type Options struct {
 	DevopsCheckup func(ctx context.Context) *internal_command.CmdCheckup
-	LogErrorFunc  LogErrorFunc
+	Codec         Codec
 }
 
 // NewOptions new Options
@@ -45,10 +45,10 @@ func WithDevopsCheckup(v func(ctx context.Context) *internal_command.CmdCheckup)
 	}
 }
 
-// WithLogErrorFunc option func for filed LogErrorFunc
-func WithLogErrorFunc(v LogErrorFunc) Option {
+// WithCodec option func for filed Codec
+func WithCodec(v Codec) Option {
 	return func(cc *Options) {
-		cc.LogErrorFunc = v
+		cc.Codec = v
 	}
 }
 
@@ -66,7 +66,7 @@ func newDefaultOptions() *Options {
 		WithDevopsCheckup(func(ctx context.Context) *internal_command.CmdCheckup {
 			return &internal_command.CmdCheckup{Code: common.ErrorCode_OK.NumberInt32(), Message: "default ok"}
 		}),
-		WithLogErrorFunc(NewLogger(nil).LogErrorAndEatError),
+		WithCodec(jsonCodec{}),
 	} {
 		opt(cc)
 	}
@@ -78,12 +78,12 @@ func newDefaultOptions() *Options {
 func (cc *Options) GetDevopsCheckup() func(ctx context.Context) *internal_command.CmdCheckup {
 	return cc.DevopsCheckup
 }
-func (cc *Options) GetLogErrorFunc() LogErrorFunc { return cc.LogErrorFunc }
+func (cc *Options) GetCodec() Codec { return cc.Codec }
 
 // OptionsVisitor visitor interface for Options
 type OptionsVisitor interface {
 	GetDevopsCheckup() func(ctx context.Context) *internal_command.CmdCheckup
-	GetLogErrorFunc() LogErrorFunc
+	GetCodec() Codec
 }
 
 // OptionsInterface visitor + ApplyOption interface for Options
