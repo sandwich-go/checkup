@@ -81,12 +81,12 @@ func (h handler) Handle(ctx context.Context, in []byte) ([]byte, Valid, error) {
 	}
 	uri, _, err := h.Decode(in)
 	if err != nil {
-		return nil, false, err
+		return nil, true, err
 	}
 	var raw []byte
 	raw, err = processors[uri].process(ctx, h.fight, h.cc)
 	if err != nil {
-		return nil, false, err
+		return nil, true, err
 	}
 	if len(raw) > 0 {
 		raw = z.StringToBytes(base64.StdEncoding.EncodeToString(raw))
