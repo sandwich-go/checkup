@@ -21,8 +21,6 @@ var (
 // Is 是否为有效的消息
 type Is = bool
 
-const URI = "internal_command.CmdCheckup"
-
 // Codec 序列化/反序列化
 type Codec interface {
 	// Marshal 序列化
@@ -33,6 +31,8 @@ type Codec interface {
 
 // Handler 处理器
 type Handler interface {
+	// IsRequestPath 是否是请求的 path
+	IsRequestPath(string) Is
 	// RequestBytes  Checkup 请求的字节数组
 	RequestBytes() []byte
 	// HandleIfRequestBytes 如果是 Checkup 请求的字节数组，则处理

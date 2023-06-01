@@ -10,7 +10,7 @@ import (
 
 func TestCheckup(t *testing.T) {
 	Convey("checkup", t, func() {
-		packetCheckup := &Packet{Uri: URI}
+		packetCheckup := &Packet{Uri: uri}
 		codec := jsonCodec{}
 		bs, err := codec.Marshal(packetCheckup)
 		So(err, ShouldBeNil)
@@ -32,6 +32,8 @@ func TestCheckup(t *testing.T) {
 		So(len(bs), ShouldNotBeZeroValue)
 
 		var valid Is
+		So(d.IsRequestPath("aaaaa"), ShouldBeFalse)
+		So(d.IsRequestPath(packetCheckup.Uri), ShouldBeTrue)
 		_, valid = d.HandleIfRequestBytes(context.Background(), []byte{'1', '2'})
 		So(err, ShouldBeNil)
 		So(valid, ShouldBeFalse)

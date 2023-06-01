@@ -11,8 +11,18 @@ import (
 	"github.com/sandwich-go/checkup/protocol/gen/golang/common"
 	"github.com/sandwich-go/checkup/protocol/gen/golang/internal_command"
 	"google.golang.org/protobuf/proto"
+	"strings"
 	"time"
 )
+
+const uri = "internal_command.CmdCheckup"
+
+var uriSuffix string
+
+func init() {
+	ss := strings.Split(uri, ".")
+	uriSuffix = ss[len(ss)-1]
+}
 
 type handler struct {
 	bytes, errBytes []byte
@@ -21,12 +31,12 @@ type handler struct {
 }
 
 func New(opts ...Option) Handler {
-	var err error
 	cc := NewOptions(opts...)
 	h := &handler{cc: cc, fight: &singleflight.Group{}}
-	h.bytes, err = cc.Codec.Marshal(&Packet{Uri: URI})
+	h.bytes = z.StringToBytes(uri)
+	var err error
+	h.errBytes, err = cc.Codec.Marshal(&Packet{Uri: uri, Raw: h.bytes})
 	xpanic.WhenError(err)
-	h.errBytes, err = cc.Codec.Marshal(&Packet{Uri: URI, Raw: z.StringToBytes(ErrHandleRequest.Error())})
 	return h
 }
 
@@ -39,7 +49,7 @@ func (h handler) unmarshal(in []byte) (*internal_command.CmdCheckup, error) {
 	if err != nil {
 		return nil, err
 	}
-	if p.Uri != URI {
+	if p.Uri != uri {
 		return nil, ErrUnknownPacket
 	}
 	var resp = &internal_command.CmdCheckup{}
@@ -70,7 +80,7 @@ func (h handler) marshal(in *internal_command.CmdCheckup) []byte {
 		raw = z.StringToBytes(base64.StdEncoding.EncodeToString(raw))
 	}
 	var out []byte
-	out, err = h.cc.Codec.Marshal(&Packet{Uri: URI, Raw: raw})
+	out, err = h.cc.Codec.Marshal(&Packet{Uri: uri, Raw: raw})
 	if err != nil {
 		return h.onMarshalError(err)
 	}
@@ -92,13 +102,14 @@ func (h handler) filter(rr interface{}, ts ...time.Time) *internal_command.CmdCh
 	}
 	return resp
 }
-func (h handler) RequestBytes() []byte { return h.bytes }
+func (h handler) RequestBytes() []byte      { return h.bytes }
+func (h handler) IsRequestPath(s string) Is { return strings.HasSuffix(s, uriSuffix) }
 func (h handler) HandleIfRequestBytes(ctx context.Context, in []byte) ([]byte, Is) {
 	if bytes.Compare(in, h.bytes) != 0 {
 		return nil, false
 	}
 	var tsStart = time.Now()
-	if rr, err := h.fight.Do(URI, func() (interface{}, error) {
+	if rr, err := h.fight.Do(uri, func() (interface{}, error) {
 		if f := h.cc.GetDevopsCheckup(); f != nil {
 			return f(ctx), nil
 		}
