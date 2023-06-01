@@ -15,7 +15,8 @@ func OptionsOptionDeclareWithDefault() interface{} {
 		"DevopsCheckup": func(ctx context.Context) *internal_command.CmdCheckup {
 			return &internal_command.CmdCheckup{Code: common.ErrorCode_OK.NumberInt32(), Message: "default ok"}
 		},
-		"Codec": (Codec)(jsonCodec{}),
+		"Codec":   (Codec)(jsonCodec{}),
+		"OnError": func(err error) {},
 	}
 }
 

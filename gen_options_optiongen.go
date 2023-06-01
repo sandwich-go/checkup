@@ -14,6 +14,7 @@ import (
 type Options struct {
 	DevopsCheckup func(ctx context.Context) *internal_command.CmdCheckup
 	Codec         Codec
+	OnError       func(err error)
 }
 
 // NewOptions new Options
@@ -52,6 +53,13 @@ func WithCodec(v Codec) Option {
 	}
 }
 
+// WithOnError option func for filed OnError
+func WithOnError(v func(err error)) Option {
+	return func(cc *Options) {
+		cc.OnError = v
+	}
+}
+
 // InstallOptionsWatchDog the installed func will called when NewOptions  called
 func InstallOptionsWatchDog(dog func(cc *Options)) { watchDogOptions = dog }
 
@@ -67,6 +75,8 @@ func newDefaultOptions() *Options {
 			return &internal_command.CmdCheckup{Code: common.ErrorCode_OK.NumberInt32(), Message: "default ok"}
 		}),
 		WithCodec(jsonCodec{}),
+		WithOnError(func(err error) {
+		}),
 	} {
 		opt(cc)
 	}
@@ -78,12 +88,14 @@ func newDefaultOptions() *Options {
 func (cc *Options) GetDevopsCheckup() func(ctx context.Context) *internal_command.CmdCheckup {
 	return cc.DevopsCheckup
 }
-func (cc *Options) GetCodec() Codec { return cc.Codec }
+func (cc *Options) GetCodec() Codec             { return cc.Codec }
+func (cc *Options) GetOnError() func(err error) { return cc.OnError }
 
 // OptionsVisitor visitor interface for Options
 type OptionsVisitor interface {
 	GetDevopsCheckup() func(ctx context.Context) *internal_command.CmdCheckup
 	GetCodec() Codec
+	GetOnError() func(err error)
 }
 
 // OptionsInterface visitor + ApplyOption interface for Options

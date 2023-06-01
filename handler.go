@@ -4,94 +4,111 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
+	"fmt"
 	"github.com/sandwich-go/boost/singleflight"
 	"github.com/sandwich-go/boost/xpanic"
 	"github.com/sandwich-go/boost/z"
+	"github.com/sandwich-go/checkup/protocol/gen/golang/common"
+	"github.com/sandwich-go/checkup/protocol/gen/golang/internal_command"
 	"google.golang.org/protobuf/proto"
+	"time"
 )
 
-type packetProcessor interface {
-	packet() *Packet
-	decode(in []byte) (proto.Message, error)
-	process(ctx context.Context, fight *singleflight.Group, cc *Options) ([]byte, error)
-}
-
-var processors = make(map[URI]packetProcessor)
-
-func register(processor packetProcessor) {
-	xpanic.WhenTrue(processor == nil, "register processor is nil")
-	uri := processor.packet().Uri
-	if _, dup := processors[uri]; dup {
-		xpanic.WhenTrue(dup, "register called twice for processor %s", uri)
-	}
-	processors[uri] = processor
-}
-
 type handler struct {
-	bytes map[URI][]byte
-	cc    *Options
-	fight *singleflight.Group
+	bytes, errBytes []byte
+	cc              *Options
+	fight           *singleflight.Group
 }
 
 func New(opts ...Option) Handler {
+	var err error
 	cc := NewOptions(opts...)
-	h := &handler{cc: cc, fight: &singleflight.Group{}, bytes: make(map[URI][]byte)}
-	for k, v := range processors {
-		bs, err := cc.Codec.Marshal(v.packet())
-		xpanic.WhenError(err)
-		h.bytes[k] = bs
-	}
+	h := &handler{cc: cc, fight: &singleflight.Group{}}
+	h.bytes, err = cc.Codec.Marshal(&Packet{Uri: URI})
+	xpanic.WhenError(err)
+	h.errBytes, err = cc.Codec.Marshal(&Packet{Uri: URI, Raw: z.StringToBytes(ErrHandleRequest.Error())})
 	return h
 }
 
-func (h handler) Bytes(uri URI) []byte { return h.bytes[uri] }
-func (h handler) Check(in []byte) Valid {
-	for _, bs := range h.bytes {
-		if bytes.Compare(in, bs) == 0 {
-			return true
-		}
+func (h handler) unmarshal(in []byte) (*internal_command.CmdCheckup, error) {
+	if bytes.Compare(in, h.errBytes) == 0 {
+		return nil, ErrHandleRequest
 	}
-	return false
-}
-func (h handler) Decode(in []byte) (URI, proto.Message, error) {
 	var p = &Packet{}
 	err := h.cc.Codec.Unmarshal(in, p)
 	if err != nil {
-		return "", nil, err
+		return nil, err
 	}
-	if len(p.Uri) == 0 || len(h.bytes[p.Uri]) == 0 {
-		return "", nil, ErrUnknownPacket
+	if p.Uri != URI {
+		return nil, ErrUnknownPacket
 	}
-	var msg proto.Message
+	var resp = &internal_command.CmdCheckup{}
 	if len(p.Raw) > 0 {
 		var raw []byte
 		raw, err = base64.StdEncoding.DecodeString(z.BytesToString(p.Raw))
-		if err == nil {
-			msg, err = processors[p.Uri].decode(raw)
-		}
 		if err != nil {
-			return "", nil, err
+			return nil, err
+		}
+		if err = proto.Unmarshal(raw, resp); err != nil {
+			return nil, err
 		}
 	}
-	return p.Uri, msg, nil
+	return resp, nil
 }
-func (h handler) Handle(ctx context.Context, in []byte) ([]byte, Valid, error) {
-	if !h.Check(in) {
-		return nil, false, nil
+func (h handler) onMarshalError(err error) []byte {
+	if f := h.cc.GetOnError(); f != nil {
+		f(err)
 	}
-	uri, _, err := h.Decode(in)
+	return h.errBytes
+}
+func (h handler) marshal(in *internal_command.CmdCheckup) []byte {
+	raw, err := proto.Marshal(in)
 	if err != nil {
-		return nil, true, err
-	}
-	var raw []byte
-	raw, err = processors[uri].process(ctx, h.fight, h.cc)
-	if err != nil {
-		return nil, true, err
+		return h.onMarshalError(err)
 	}
 	if len(raw) > 0 {
 		raw = z.StringToBytes(base64.StdEncoding.EncodeToString(raw))
 	}
 	var out []byte
-	out, err = h.cc.Codec.Marshal(&Packet{Uri: uri, Raw: raw})
-	return out, true, err
+	out, err = h.cc.Codec.Marshal(&Packet{Uri: URI, Raw: raw})
+	if err != nil {
+		return h.onMarshalError(err)
+	}
+	return out
+}
+func (h handler) filter(rr interface{}, ts ...time.Time) *internal_command.CmdCheckup {
+	var resp *internal_command.CmdCheckup
+	switch v := rr.(type) {
+	case error:
+		resp = &internal_command.CmdCheckup{Code: common.ErrorCode_Unknown.NumberInt32(), Message: v.Error()}
+	case *internal_command.CmdCheckup:
+		resp = v
+	}
+	if resp == nil {
+		resp = &internal_command.CmdCheckup{}
+	}
+	if len(ts) > 0 && len(resp.CustomMeasurements) == 0 {
+		resp.CustomMeasurements = z.StringToBytes(fmt.Sprintf("%s_%s", ts[0], time.Now().Sub(ts[0])))
+	}
+	return resp
+}
+func (h handler) RequestBytes() []byte { return h.bytes }
+func (h handler) HandleIfRequestBytes(ctx context.Context, in []byte) ([]byte, Is) {
+	if bytes.Compare(in, h.bytes) != 0 {
+		return nil, false
+	}
+	var tsStart = time.Now()
+	if rr, err := h.fight.Do(URI, func() (interface{}, error) {
+		if f := h.cc.GetDevopsCheckup(); f != nil {
+			return f(ctx), nil
+		}
+		return nil, nil
+	}); err != nil {
+		return h.marshal(h.filter(err)), true
+	} else {
+		return h.marshal(h.filter(rr, tsStart)), true
+	}
+}
+func (h handler) HandleResponseBytes(in []byte) (*internal_command.CmdCheckup, error) {
+	return h.unmarshal(in)
 }

@@ -3,23 +3,25 @@ package checkup
 import (
 	"context"
 	"errors"
-	"google.golang.org/protobuf/proto"
+	"github.com/sandwich-go/checkup/protocol/gen/golang/internal_command"
 )
 
 // Packet 传输的包体
 type Packet struct {
-	Uri URI    `json:"uri"`
+	Uri string `json:"uri"`
 	Raw []byte `json:"raw"`
 }
 
-// ErrUnknownPacket Decode 或 Handle 的时候，若不合法，则抛出该错误
-var ErrUnknownPacket = errors.New("unknown packet")
+var (
+	// ErrUnknownPacket Decode 时候，若不合法，则抛出该错误
+	ErrUnknownPacket = errors.New("unknown checkup packet")
+	ErrHandleRequest = errors.New("handle checkup request error")
+)
 
-// Valid 是否为有效的消息
-type Valid = bool
+// Is 是否为有效的消息
+type Is = bool
 
-// URI uri
-type URI = string
+const URI = "internal_command.CmdCheckup"
 
 // Codec 序列化/反序列化
 type Codec interface {
@@ -31,12 +33,10 @@ type Codec interface {
 
 // Handler 处理器
 type Handler interface {
-	// Bytes URI 对应的字节数组
-	Bytes(uri URI) []byte
-	// Check 检查是否有效
-	Check(in []byte) Valid
-	// Handle 处理
-	Handle(ctx context.Context, in []byte) ([]byte, Valid, error)
-	// Decode 解析 Packet 对应的字节数组
-	Decode(in []byte) (URI, proto.Message, error)
+	// RequestBytes  Checkup 请求的字节数组
+	RequestBytes() []byte
+	// HandleIfRequestBytes 如果是 Checkup 请求的字节数组，则处理
+	HandleIfRequestBytes(ctx context.Context, in []byte) ([]byte, Is)
+	// HandleResponseBytes 处理 Checkup 的响应字节数组
+	HandleResponseBytes(in []byte) (*internal_command.CmdCheckup, error)
 }
