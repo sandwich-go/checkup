@@ -127,340 +127,11 @@ func (ErrorCode) EnumDescriptor() ([]byte, []int) {
 	return file_common_common_proto_rawDescGZIP(), []int{0}
 }
 
-// metadata key
-type MetadataKey int32
-
-const (
-	MetadataKey_Invalid           MetadataKey = 0
-	MetadataKey_AppVersion        MetadataKey = 1
-	MetadataKey_Language          MetadataKey = 2
-	MetadataKey_Channel           MetadataKey = 3
-	MetadataKey_ResDataVersion    MetadataKey = 10
-	MetadataKey_ResAndroidVersion MetadataKey = 11
-	MetadataKey_ResIOSVersion     MetadataKey = 12
-	MetadataKey_ClientId          MetadataKey = 13
-)
-
-// Enum value maps for MetadataKey.
-var (
-	MetadataKey_name = map[int32]string{
-		0:  "Invalid",
-		1:  "AppVersion",
-		2:  "Language",
-		3:  "Channel",
-		10: "ResDataVersion",
-		11: "ResAndroidVersion",
-		12: "ResIOSVersion",
-		13: "ClientId",
-	}
-	MetadataKey_value = map[string]int32{
-		"Invalid":           0,
-		"AppVersion":        1,
-		"Language":          2,
-		"Channel":           3,
-		"ResDataVersion":    10,
-		"ResAndroidVersion": 11,
-		"ResIOSVersion":     12,
-		"ClientId":          13,
-	}
-)
-
-func (x MetadataKey) Enum() *MetadataKey {
-	p := new(MetadataKey)
-	*p = x
-	return p
-}
-
-func (x MetadataKey) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (MetadataKey) Descriptor() protoreflect.EnumDescriptor {
-	return file_common_common_proto_enumTypes[1].Descriptor()
-}
-
-func (MetadataKey) Type() protoreflect.EnumType {
-	return &file_common_common_proto_enumTypes[1]
-}
-
-// NumberInt32 hacked by protokitgo
-func (x MetadataKey) NumberInt32() int32 {
-	return int32(x.Number())
-}
-
-func (x MetadataKey) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use MetadataKey.Descriptor instead.
-func (MetadataKey) EnumDescriptor() ([]byte, []int) {
-	return file_common_common_proto_rawDescGZIP(), []int{1}
-}
-
-//NormalAck as a response placeholder, when no data require to sync back
-type NormalAck struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *NormalAck) Reset() {
-	*x = NormalAck{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_common_common_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *NormalAck) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*NormalAck) ProtoMessage() {}
-
-func (x *NormalAck) ProtoReflect() protoreflect.Message {
-	mi := &file_common_common_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NormalAck.ProtoReflect.Descriptor instead.
-func (*NormalAck) Descriptor() ([]byte, []int) {
-	return file_common_common_proto_rawDescGZIP(), []int{0}
-}
-
-//Empty as a Empty request
-type Empty struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *Empty) Reset() {
-	*x = Empty{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_common_common_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Empty) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Empty) ProtoMessage() {}
-
-func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_common_common_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
-func (*Empty) Descriptor() ([]byte, []int) {
-	return file_common_common_proto_rawDescGZIP(), []int{1}
-}
-
-// for tcp ping/pang
-type Ping struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Timestamp int64 `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-}
-
-func (x *Ping) Reset() {
-	*x = Ping{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_common_common_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Ping) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Ping) ProtoMessage() {}
-
-func (x *Ping) ProtoReflect() protoreflect.Message {
-	mi := &file_common_common_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Ping.ProtoReflect.Descriptor instead.
-func (*Ping) Descriptor() ([]byte, []int) {
-	return file_common_common_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *Ping) GetTimestamp() int64 {
-	if x != nil {
-		return x.Timestamp
-	}
-	return 0
-}
-
-type PingAck struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Timestamp int64 `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-}
-
-func (x *PingAck) Reset() {
-	*x = PingAck{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_common_common_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PingAck) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PingAck) ProtoMessage() {}
-
-func (x *PingAck) ProtoReflect() protoreflect.Message {
-	mi := &file_common_common_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PingAck.ProtoReflect.Descriptor instead.
-func (*PingAck) Descriptor() ([]byte, []int) {
-	return file_common_common_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *PingAck) GetTimestamp() int64 {
-	if x != nil {
-		return x.Timestamp
-	}
-	return 0
-}
-
-// for common error response
-type ErrorResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Code           int32  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
-	Message        string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	Data           []byte `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
-	LogicException bool   `protobuf:"varint,4,opt,name=LogicException,proto3" json:"LogicException,omitempty"`
-}
-
-func (x *ErrorResponse) Reset() {
-	*x = ErrorResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_common_common_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ErrorResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ErrorResponse) ProtoMessage() {}
-
-func (x *ErrorResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_common_common_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ErrorResponse.ProtoReflect.Descriptor instead.
-func (*ErrorResponse) Descriptor() ([]byte, []int) {
-	return file_common_common_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *ErrorResponse) GetCode() int32 {
-	if x != nil {
-		return x.Code
-	}
-	return 0
-}
-
-func (x *ErrorResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
-}
-
-func (x *ErrorResponse) GetData() []byte {
-	if x != nil {
-		return x.Data
-	}
-	return nil
-}
-
-func (x *ErrorResponse) GetLogicException() bool {
-	if x != nil {
-		return x.LogicException
-	}
-	return false
-}
-
 var File_common_common_proto protoreflect.FileDescriptor
 
 var file_common_common_proto_rawDesc = []byte{
 	0x0a, 0x13, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x06, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x22, 0x0b, 0x0a,
-	0x09, 0x4e, 0x6f, 0x72, 0x6d, 0x61, 0x6c, 0x41, 0x63, 0x6b, 0x22, 0x07, 0x0a, 0x05, 0x45, 0x6d,
-	0x70, 0x74, 0x79, 0x22, 0x24, 0x0a, 0x04, 0x50, 0x69, 0x6e, 0x67, 0x12, 0x1c, 0x0a, 0x09, 0x74,
-	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09,
-	0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x22, 0x27, 0x0a, 0x07, 0x50, 0x69, 0x6e,
-	0x67, 0x41, 0x63, 0x6b, 0x12, 0x1c, 0x0a, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d,
-	0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
-	0x6d, 0x70, 0x22, 0x79, 0x0a, 0x0d, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67,
-	0x65, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52,
-	0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x26, 0x0a, 0x0e, 0x4c, 0x6f, 0x67, 0x69, 0x63, 0x45, 0x78,
-	0x63, 0x65, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0e, 0x4c,
-	0x6f, 0x67, 0x69, 0x63, 0x45, 0x78, 0x63, 0x65, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x2a, 0xd0, 0x02,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x06, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2a, 0xd0, 0x02,
 	0x0a, 0x09, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x06, 0x0a, 0x02, 0x4f,
 	0x4b, 0x10, 0x00, 0x12, 0x0b, 0x0a, 0x07, 0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x10, 0x01,
 	0x12, 0x10, 0x0a, 0x0c, 0x4e, 0x6f, 0x74, 0x49, 0x6d, 0x70, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74,
@@ -482,19 +153,10 @@ var file_common_common_proto_rawDesc = []byte{
 	0x73, 0x65, 0x64, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x10, 0x10, 0x12, 0x14, 0x0a, 0x10, 0x49, 0x6e,
 	0x76, 0x61, 0x6c, 0x69, 0x64, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x10, 0x11,
 	0x12, 0x0e, 0x0a, 0x0a, 0x42, 0x61, 0x64, 0x47, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x10, 0x12,
-	0x2a, 0x91, 0x01, 0x0a, 0x0b, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x65, 0x79,
-	0x12, 0x0b, 0x0a, 0x07, 0x49, 0x6e, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x10, 0x00, 0x12, 0x0e, 0x0a,
-	0x0a, 0x41, 0x70, 0x70, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x10, 0x01, 0x12, 0x0c, 0x0a,
-	0x08, 0x4c, 0x61, 0x6e, 0x67, 0x75, 0x61, 0x67, 0x65, 0x10, 0x02, 0x12, 0x0b, 0x0a, 0x07, 0x43,
-	0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x10, 0x03, 0x12, 0x12, 0x0a, 0x0e, 0x52, 0x65, 0x73, 0x44,
-	0x61, 0x74, 0x61, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x10, 0x0a, 0x12, 0x15, 0x0a, 0x11,
-	0x52, 0x65, 0x73, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x69, 0x64, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
-	0x6e, 0x10, 0x0b, 0x12, 0x11, 0x0a, 0x0d, 0x52, 0x65, 0x73, 0x49, 0x4f, 0x53, 0x56, 0x65, 0x72,
-	0x73, 0x69, 0x6f, 0x6e, 0x10, 0x0c, 0x12, 0x0c, 0x0a, 0x08, 0x43, 0x6c, 0x69, 0x65, 0x6e, 0x74,
-	0x49, 0x64, 0x10, 0x0d, 0x42, 0x30, 0x5a, 0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
-	0x6f, 0x6d, 0x2f, 0x73, 0x61, 0x6e, 0x64, 0x77, 0x69, 0x63, 0x68, 0x2d, 0x67, 0x6f, 0x2f, 0x63,
-	0x68, 0x65, 0x63, 0x6b, 0x75, 0x70, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f,
-	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x42, 0x30, 0x5a, 0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73,
+	0x61, 0x6e, 0x64, 0x77, 0x69, 0x63, 0x68, 0x2d, 0x67, 0x6f, 0x2f, 0x63, 0x68, 0x65, 0x63, 0x6b,
+	0x75, 0x70, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x63, 0x6f, 0x6d, 0x6d,
+	0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -509,16 +171,9 @@ func file_common_common_proto_rawDescGZIP() []byte {
 	return file_common_common_proto_rawDescData
 }
 
-var file_common_common_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_common_common_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_common_common_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_common_common_proto_goTypes = []interface{}{
-	(ErrorCode)(0),        // 0: common.ErrorCode
-	(MetadataKey)(0),      // 1: common.MetadataKey
-	(*NormalAck)(nil),     // 2: common.NormalAck
-	(*Empty)(nil),         // 3: common.Empty
-	(*Ping)(nil),          // 4: common.Ping
-	(*PingAck)(nil),       // 5: common.PingAck
-	(*ErrorResponse)(nil), // 6: common.ErrorResponse
+	(ErrorCode)(0), // 0: common.ErrorCode
 }
 var file_common_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -533,82 +188,19 @@ func file_common_common_proto_init() {
 	if File_common_common_proto != nil {
 		return
 	}
-	if !protoimpl.UnsafeEnabled {
-		file_common_common_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*NormalAck); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_common_common_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Empty); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_common_common_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Ping); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_common_common_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PingAck); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_common_common_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ErrorResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_common_common_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   5,
+			NumEnums:      1,
+			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_common_common_proto_goTypes,
 		DependencyIndexes: file_common_common_proto_depIdxs,
 		EnumInfos:         file_common_common_proto_enumTypes,
-		MessageInfos:      file_common_common_proto_msgTypes,
 	}.Build()
 	File_common_common_proto = out.File
 	file_common_common_proto_rawDesc = nil

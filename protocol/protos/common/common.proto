@@ -8,25 +8,6 @@ option go_package = "github.com/sandwich-go/checkup/protocol/common";
 
 //CSHARP_NAMESPACE
 
-//NormalAck as a response placeholder, when no data require to sync back
-message NormalAck {
-}
-
-//Empty as a Empty request
-message Empty {}
-
-// for tcp ping/pang
-message Ping {int64 timestamp = 1;}
-message PingAck {int64 timestamp = 1;}
-
-// for common error response
-message ErrorResponse {
-  int32 code = 1;
-  string message = 2;
-  bytes data = 3;
-  bool LogicException = 4;
-}
-
 // must keep error code under 1000 for engine
 enum ErrorCode {
   OK = 0;
@@ -48,16 +29,4 @@ enum ErrorCode {
   PacketParsedError = 16;
   InvalidParameter = 17;
   BadGateway = 18;
-}
-
-// metadata key
-enum MetadataKey {
-  Invalid = 0;
-  AppVersion = 1;
-  Language = 2;
-  Channel = 3;
-  ResDataVersion = 10;
-  ResAndroidVersion = 11;
-  ResIOSVersion = 12;
-  ClientId = 13;
 }
