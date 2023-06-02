@@ -21,6 +21,14 @@ var (
 // Is 是否为有效的消息
 type Is = bool
 
+var Default = New()
+
+// IsRequestPath 是否是请求的 path
+func IsRequestPath(s string) Is { return Default.IsRequestPath(s) }
+
+// RequestBytes  Checkup 请求的字节数组
+func RequestBytes() []byte { return Default.RequestBytes() }
+
 // Codec 序列化/反序列化
 type Codec interface {
 	// Marshal 序列化
