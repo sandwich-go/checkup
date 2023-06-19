@@ -5,14 +5,16 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/sandwich-go/boost/singleflight"
 	"github.com/sandwich-go/boost/xpanic"
 	"github.com/sandwich-go/boost/z"
+	"google.golang.org/protobuf/proto"
+
 	"github.com/sandwich-go/checkup/protocol/gen/golang/common"
 	"github.com/sandwich-go/checkup/protocol/gen/golang/internal_command"
-	"google.golang.org/protobuf/proto"
-	"strings"
-	"time"
 )
 
 const uri = "internal_command.CmdCheckup"
@@ -104,9 +106,12 @@ func (h handler) filter(rr interface{}, ts ...time.Time) *internal_command.CmdCh
 }
 func (h handler) RequestBytes() []byte      { return h.bytes }
 func (h handler) IsRequestPath(s string) Is { return strings.HasSuffix(s, uriSuffix) }
-func (h handler) HandleIfRequestBytes(ctx context.Context, in []byte) ([]byte, Is) {
+func (h handler) HandleIfRequestBytes(ctx context.Context, in []byte) ResultInterface {
 	if bytes.Compare(in, h.bytes) != 0 {
-		return nil, false
+		return &ProcessResult{
+			Resp:      nil,
+			IsCheckup: false,
+		}
 	}
 	var tsStart = time.Now()
 	if rr, err := h.fight.Do(uri, func() (interface{}, error) {
@@ -115,9 +120,23 @@ func (h handler) HandleIfRequestBytes(ctx context.Context, in []byte) ([]byte, I
 		}
 		return nil, nil
 	}); err != nil {
-		return h.marshal(h.filter(err)), true
+		return &ProcessResult{
+			Resp:      h.marshal(h.filter(err)),
+			IsCheckup: true,
+			Result:    common.ErrorCode_Unknown,
+		}
 	} else {
-		return h.marshal(h.filter(rr, tsStart)), true
+		rsp := h.filter(rr, tsStart)
+		return &ProcessResult{
+			Resp:      h.marshal(rsp),
+			IsCheckup: true,
+			Result: func() common.ErrorCode {
+				if rsp.Code != common.ErrorCode_OK.NumberInt32() {
+					return common.ErrorCode_Unknown
+				}
+				return common.ErrorCode_OK
+			}(),
+		}
 	}
 }
 func (h handler) HandleResponseBytes(in []byte) (*internal_command.CmdCheckup, error) {

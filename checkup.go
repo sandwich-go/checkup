@@ -3,6 +3,8 @@ package checkup
 import (
 	"context"
 	"errors"
+
+	"github.com/sandwich-go/checkup/protocol/gen/golang/common"
 	"github.com/sandwich-go/checkup/protocol/gen/golang/internal_command"
 )
 
@@ -17,6 +19,28 @@ var (
 	ErrUnknownPacket = errors.New("unknown checkup packet")
 	ErrHandleRequest = errors.New("handle checkup request error")
 )
+
+type ResultInterface interface {
+	RespBytes() []byte
+	Is() bool
+	Success() bool
+}
+
+type ProcessResult struct {
+	Resp      []byte
+	IsCheckup bool
+	Result    common.ErrorCode
+}
+
+func (r *ProcessResult) RespBytes() []byte {
+	return r.Resp
+}
+func (r *ProcessResult) Is() bool {
+	return r.IsCheckup
+}
+func (r *ProcessResult) Success() bool {
+	return r.Result == common.ErrorCode_OK
+}
 
 // Is 是否为有效的消息
 type Is = bool
@@ -44,7 +68,7 @@ type Handler interface {
 	// RequestBytes  Checkup 请求的字节数组
 	RequestBytes() []byte
 	// HandleIfRequestBytes 如果是 Checkup 请求的字节数组，则处理
-	HandleIfRequestBytes(ctx context.Context, in []byte) ([]byte, Is)
+	HandleIfRequestBytes(ctx context.Context, in []byte) ResultInterface
 	// HandleResponseBytes 处理 Checkup 的响应字节数组
 	HandleResponseBytes(in []byte) (*internal_command.CmdCheckup, error)
 }
