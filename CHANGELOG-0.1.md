@@ -1,3 +1,35 @@
+### v0.1.0-alpha.11 (2023-06-19 11:25:28)
+
+#### 💪  Commit
+  * checkup 返回给调用者更多信息：Is + 处理结果 ([0cbd788](https://github.com/sandwich-go/logbus/commit/0cbd7885cc0d58005c0db4f2c9b5129dac48d6b6)) (<small>[biyongze](yongze.bi@centurygame.com)@2023-06-19 11:25:28 &#43;0800 &#43;0800</small>)
+
+### v0.1.0-alpha.10 (2023-06-02 10:38:51)
+
+#### 💪  Commit
+  * checkup ([7ff6b53](https://github.com/sandwich-go/logbus/commit/7ff6b53c000ece22e2af81ee017f3c0ed8b919f1)) (<small>[祝黄清](huangqing.zhu@centurygame.com)@2023-06-02 10:38:51 &#43;0800 &#43;0800</small>)
+
+### v0.1.0-alpha.9 (2023-06-01 19:13:02)
+
+#### 💪  Commit
+  * checkup ([d6624b0](https://github.com/sandwich-go/logbus/commit/d6624b0a92de7d9c7e34fb050ceb27ec998d9f9d)) (<small>[祝黄清](huangqing.zhu@centurygame.com)@2023-06-01 19:13:02 &#43;0800 &#43;0800</small>)
+
+### v0.1.0-alpha.8 (2023-06-01 18:55:15)
+
+#### 💪  Commit
+  * Merge branch 'version/0.1' of github.com:sandwich-go/checkup into version/0.1 ([6905229](https://github.com/sandwich-go/logbus/commit/690522996e265aafcb8ffb8a38fe0e771b879bac)) (<small>[祝黄清](huangqing.zhu@centurygame.com)@2023-06-01 18:55:15 &#43;0800 &#43;0800</small>)
+  * checkup ([d946505](https://github.com/sandwich-go/logbus/commit/d946505f59edb7aec4a6f60f6f47e080ba352b43)) (<small>[祝黄清](huangqing.zhu@centurygame.com)@2023-06-01 18:55:03 &#43;0800 &#43;0800</small>)
+  * delete unused message in proto ([6d43275](https://github.com/sandwich-go/logbus/commit/6d4327597a72342bb3506a70cf235c9b24781f3f)) (<small>[biyongze](yongze.bi@centurygame.com)@2023-06-01 15:33:55 &#43;0800 &#43;0800</small>)
+
+### v0.1.0-alpha.7 (2023-05-31 21:08:13)
+
+### v0.1.0-alpha.6 (2023-05-30 14:39:53)
+
+#### 🤖  Tools
+  * **sem**: make changelog ([981a7ca](https://github.com/sandwich-go/logbus/commit/981a7ca0559287bdefcb7eef47ed73e072c948f5)) (<small>[biyongze](yongze.bi@centurygame.com)@2023-05-29 16:34:04 &#43;0800 &#43;0800</small>)
+
+#### 💪  Commit
+  * checkup 重构 ([d450b7e](https://github.com/sandwich-go/logbus/commit/d450b7eca2af7884abfdbc2a0ab02bb0fb73be36) , [ed2d638](https://github.com/sandwich-go/logbus/commit/ed2d63849377e2cd3b4975bf6457be945de86275)) (<small>[祝黄清](huangqing.zhu@centurygame.com)@2023-05-30 14:39:53 &#43;0800 &#43;0800</small>)
+
 ### v0.1.0-alpha.5 (2023-05-29 16:33:46)
 
 #### 🤖  Tools
