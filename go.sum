@@ -56,8 +56,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/rogpeppe/go-internal v1.6.1/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTEfhy4qGm1nDQc=
 github.com/rogpeppe/go-internal v1.8.0/go.mod h1:WmiCO8CzOY8rg0OYDC4/i/2WRWAB6poM+XZ2dLUbcbE=
 github.com/rs/xid v1.4.0/go.mod h1:trrq9SKmegXys3aeAKXMUTdJsYXVwGY3RLcfgqegfbg=
-github.com/sandwich-go/boost v1.3.1 h1:yKS2bNpGg6pUbR5qxCuDG4Rn8bHNlft6nknBMq609pU=
-github.com/sandwich-go/boost v1.3.1/go.mod h1:4A8tolVlDxAClIyCroU+341uIsVurSQyfrc/AP2kiXQ=
+github.com/sandwich-go/boost v1.3.2 h1:nwvFk7PYgdLOnqEH2UuFGuODQoLF6VAQTofuPW2GSfU=
+github.com/sandwich-go/boost v1.3.2/go.mod h1:4A8tolVlDxAClIyCroU+341uIsVurSQyfrc/AP2kiXQ=
 github.com/sirupsen/logrus v1.9.0/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/smartystreets/assertions v1.2.0 h1:42S6lae5dvLc7BrLu/0ugRtcFVjoJNMC/N3yZFZkDFs=
 github.com/smartystreets/assertions v1.2.0/go.mod h1:tcbTF8ujkAEcZ8TElKY+i30BzYlVhC/LOxJk7iOWnoo=

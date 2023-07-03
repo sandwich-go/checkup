@@ -3,7 +3,7 @@ module github.com/sandwich-go/checkup
 go 1.18
 
 require (
-	github.com/sandwich-go/boost v1.3.1
+	github.com/sandwich-go/boost v1.3.2
 	go.uber.org/zap v1.23.0
 )
 
